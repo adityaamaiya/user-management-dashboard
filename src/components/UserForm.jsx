@@ -26,7 +26,12 @@ const UserForm = ({ existingUser }) => {
   };
 
   const validateForm = () => {
-    if (!newUser.name || !newUser.email || !newUser.website) {
+    if (
+      !newUser.name ||
+      !newUser.email ||
+      !newUser.username ||
+      !newUser.website
+    ) {
       enqueueSnackbar("All fields are required!", { variant: "error" });
       return false;
     }
