@@ -16,7 +16,12 @@ const UserList = () => {
     // Use useEffect to fetch data when the component mounts
     getUsers()
       .then((response) => setUsers(response.data)) // Update the state with the fetched data
-      .catch(console.error)
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        enqueueSnackbar("Failed to fetch users. Please try again.", {
+          variant: "error",
+        }); // Show error snackbar
+      })
       .finally(() => setLoading(false)); // Set loading to false after data is fetched
   }, []);
 
@@ -27,6 +32,7 @@ const UserList = () => {
       enqueueSnackbar("User deleted successfully!", { variant: "success" });
     } catch (error) {
       console.error(error);
+      enqueueSnackbar("Failed to delete user!", { variant: "error" });
     }
   };
 
