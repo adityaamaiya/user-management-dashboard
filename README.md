@@ -8,13 +8,21 @@ This is a React-based User Management Dashboard that allows users to view, add, 
 
 1. **View Users:** Displays a list of users in a responsive table.
 2. **Pagination:** Users can navigate through pages if the user list is large.
-3. **Add Users:** Add new user details using a form.
+3. **Add Users:** Add new users through a form accessible via the navbar.
 4. **Edit Users:** Update user details through a pre-filled form.
-5. **Delete Users:** Remove a user from the list.
+5. **Delete Users:** Remove users from the list with confirmation.
 6. **Loading Indicator:** Shows a loading message when data is being fetched.
 7. **No User Message:** Displays a message if no users are available.
-8. **Responsive Design:** Built with React Bootstrap for responsiveness.
-9. **Icons:** Utilizes `react-icons` for edit and delete actions.
+8. **Snackbar Alerts:**
+   - Success notifications for adding, editing, and deleting users.
+   - Error notifications for form validation failures or API errors.
+9. **Form Validation:**
+   - Ensures all fields are filled before submission.
+   - Validates email format and displays errors using `notistack`.
+10. **Navbar:** Provides options to navigate to the home page or the "Add User" form.
+11. **Footer:** Includes additional links or placeholders for branding.
+12. **Responsive Design:** Built with React Bootstrap for responsiveness.
+13. **Icons:** Utilizes `react-icons` for edit and delete actions.
 
 ---
 
@@ -83,18 +91,20 @@ This project is deployed on Vercel. To deploy your version:
 ```
 src/
 ├── components/
-│   ├── Navbar.jsx
-│   ├── UserList.jsx
-│   └── UserForm.jsx
+│   ├── Footer.js          # Footer with additional links
+│   ├── Navbar.js          # Responsive navbar with navigation options
+│   ├── UserList.js        # Component to display the list of users
+│   └── UserForm.js        # Form for adding and editing users
 ├── pages/
-│   ├── Home.js
-│   ├── AddUser.js
-│   └── EditUser.js
+│   ├── Home.js            # Home page displaying the user list
+│   ├── AddUser.js         # Page containing the Add User form
+│   └── EditUser.js        # Page for editing user details
 ├── services/
-│   └── api.js
-├── App.js
-├── index.css
-└── index.js
+│   └── api.js             # API service functions for user CRUD operations
+├── App.js                 # Main app file with routing
+├── index.css              # Global styles
+└── index.js               # Entry point for the React app
+
 ```
 
 ---
@@ -115,7 +125,7 @@ src/
 
 ## Tech Stack
 
-- **Frontend:** React, React Bootstrap, React Icons
+- **Frontend:** React, React Bootstrap, React Icons, Notistack
 - **HTTP Client:** Axios
 - **Deployment:** Vercel
 

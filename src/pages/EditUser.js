@@ -9,7 +9,6 @@ export default function EditUser() {
   return (
     <div>
       <Navbar />
-
       <UserForm existingUser={existingUser} />
       <Footer />
     </div>

@@ -7,7 +7,6 @@ export default function AddUser() {
   return (
     <div>
       <Navbar />
-
       <UserForm />
       <Footer />
     </div>

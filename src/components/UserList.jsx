@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getUsers, deleteUser } from "../services/api";
 import { Table, Button } from "react-bootstrap";
 import { FaUserEdit, FaUserMinus } from "react-icons/fa";
+import { enqueueSnackbar } from "notistack";
 
 const UserList = () => {
   const [users, setUsers] = useState([]); // Initialize the state with an empty array
@@ -19,12 +20,14 @@ const UserList = () => {
       .finally(() => setLoading(false)); // Set loading to false after data is fetched
   }, []);
 
-  const handleDelete = (id) => {
-    deleteUser(id)
-      .then(() => {
-        setUsers(users.filter((user) => user.id !== id)); // Update the state to remove the deleted user
-      })
-      .catch(console.error);
+  const handleDelete = async (id) => {
+    try {
+      await deleteUser(id);
+      setUsers(users.filter((user) => user.id !== id)); // Update the state to remove the deleted user
+      enqueueSnackbar("User deleted successfully!", { variant: "success" });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // Pagination Logic

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { addUser, updateUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { enqueueSnackbar } from "notistack";
 
 const UserForm = ({ existingUser }) => {
   const [newUser, setNewUser] = useState({
@@ -9,56 +10,53 @@ const UserForm = ({ existingUser }) => {
     username: "",
     email: "",
     website: "",
-  }); // State to store user data
+  });
 
-  const [error, setError] = useState(""); // State to store error message
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if an existing user is provided
     if (existingUser) {
       setNewUser(existingUser);
     }
-  }, [existingUser]); // Update the state when the existing user changes
+  }, [existingUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewUser({ ...newUser, [name]: value }); // Update the state with the new user data
+    setNewUser({ ...newUser, [name]: value });
   };
 
   const validateForm = () => {
-    // Validate the form data
     if (!newUser.name || !newUser.email || !newUser.website) {
-      setError("All fields are required!");
+      enqueueSnackbar("All fields are required!", { variant: "error" });
       return false;
     }
-    // Basic email validation
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(newUser.email)) {
-      setError("Please enter a valid email!");
+      enqueueSnackbar("Please enter a valid email!", { variant: "error" });
       return false;
     }
-    setError("");
     return true;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    if (!validateForm()) return; // Stop if validation fails
-    if (existingUser) {
-      try {
-        updateUser(existingUser.id, newUser);
-      } catch (error) {
-        console.error("Error updating user:", error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    try {
+      if (existingUser) {
+        await updateUser(existingUser.id, newUser);
+        enqueueSnackbar("User updated successfully!", { variant: "success" });
+      } else {
+        await addUser(newUser);
+        enqueueSnackbar("User added successfully!", { variant: "success" });
       }
-    } else {
-      try {
-        addUser(newUser);
-      } catch (error) {
-        console.error("Error adding user:", error);
-      }
+      navigate("/");
+    } catch (error) {
+      console.error("Error during form submission:", error);
+      enqueueSnackbar("An error occurred. Please try again.", {
+        variant: "error",
+      });
     }
-    navigate("/"); // Navigate to the home page after successful submission
   };
 
   return (
@@ -66,8 +64,6 @@ const UserForm = ({ existingUser }) => {
       <h2 style={{ textAlign: "center" }}>
         {existingUser ? "Edit" : "Add"} User
       </h2>
-
-      {error && <Alert variant="danger">{error}</Alert>}
       <Form
         onSubmit={handleSubmit}
         style={{
