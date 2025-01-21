@@ -69,6 +69,7 @@ const UserForm = ({ existingUser }) => {
         style={{
           maxWidth: "400px",
           margin: "0 auto",
+          padding: "20px",
           gap: "10px",
           display: "flex",
           flexDirection: "column",
