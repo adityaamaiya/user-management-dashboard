@@ -6,6 +6,7 @@ import { Form, Button, Alert } from "react-bootstrap";
 const UserForm = ({ existingUser }) => {
   const [newUser, setNewUser] = useState({
     name: "",
+    username: "",
     email: "",
     website: "",
   }); // State to store user data
@@ -85,6 +86,17 @@ const UserForm = ({ existingUser }) => {
             value={newUser.name}
             onChange={handleChange}
             placeholder="Enter Full name"
+          />
+        </Form.Group>
+
+        <Form.Group controlId="username">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            value={newUser.username}
+            onChange={handleChange}
+            placeholder="Enter Username"
           />
         </Form.Group>
 

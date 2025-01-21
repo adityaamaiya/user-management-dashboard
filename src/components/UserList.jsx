@@ -67,6 +67,7 @@ const UserList = () => {
               <th>ID</th>
               <th>First Name</th>
               <th>Last Name</th>
+              <th>Username</th>
               <th>Email</th>
               <th>Website</th>
               <th>Actions</th>
@@ -78,6 +79,7 @@ const UserList = () => {
                 <td>{user.id}</td>
                 <td>{user.name.split(" ")[0] || "NA"}</td>
                 <td>{user.name.split(" ")[1] || "NA"}</td>
+                <td>{user.username}</td>
                 <td>{user.email}</td>
                 <td>{user.website || "NA"}</td>
                 <td style={{ display: "flex", gap: "10px" }}>
