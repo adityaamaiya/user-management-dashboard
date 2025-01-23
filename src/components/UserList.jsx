@@ -15,7 +15,11 @@ const UserList = () => {
   useEffect(() => {
     // Use useEffect to fetch data when the component mounts
     getUsers()
-      .then((response) => setUsers(response.data)) // Update the state with the fetched data
+      .then((response) => {
+        if (response.status === 200) {
+          setUsers(response.data); // Update the state with the fetched data
+        }
+      }) // Update the state with the fetched data
       .catch((error) => {
         console.error("Error fetching users:", error);
         enqueueSnackbar("Failed to fetch users. Please try again.", {
@@ -27,9 +31,13 @@ const UserList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteUser(id);
-      setUsers(users.filter((user) => user.id !== id)); // Update the state to remove the deleted user
-      enqueueSnackbar("User deleted successfully!", { variant: "success" });
+      const response = await deleteUser(id);
+      console.log(response);
+      if (response.status === 200) {
+        // User deleted successfully
+        setUsers(users.filter((user) => user.id !== id)); // Update the state to remove the deleted user
+        enqueueSnackbar("User deleted successfully!", { variant: "success" });
+      }
     } catch (error) {
       console.error(error);
       enqueueSnackbar("Failed to delete user!", { variant: "error" });

@@ -49,11 +49,17 @@ const UserForm = ({ existingUser }) => {
 
     try {
       if (existingUser) {
-        await updateUser(existingUser.id, newUser);
-        enqueueSnackbar("User updated successfully!", { variant: "success" });
+        const response = await updateUser(existingUser.id, newUser);
+        console.log("Response:", response);
+        if (response.status === 200) {
+          enqueueSnackbar("User updated successfully!", { variant: "success" });
+        }
       } else {
-        await addUser(newUser);
-        enqueueSnackbar("User added successfully!", { variant: "success" });
+        const response = await addUser(newUser);
+        console.log("Response:", response);
+        if (response.status === 201) {
+          enqueueSnackbar("User added successfully!", { variant: "success" });
+        }
       }
       navigate("/");
     } catch (error) {
